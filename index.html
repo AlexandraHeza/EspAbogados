@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>LexMotion | Despacho Jurídico Estratégico</title>
+    <!-- Fuentes modernas -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 (libre) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* ========== RESET & GLOBAL ========== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #1e2a3e;
+            line-height: 1.5;
+            background-color: #f9fafb;
+            overflow-x: hidden;
+        }
+
+        /* FONDO DINÁMICO (cambia con scroll entre 3 imágenes) */
+        .dynamic-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            transition: background-image 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            filter: brightness(0.85) contrast(1.1);
+        }
+        /* Overlay para mejorar legibilidad */
+        .dynamic-bg::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(5, 15, 25, 0.6);
+            z-index: 1;
+        }
+
+        .wrapper {
+            position: relative;
+            z-index: 2;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 28px;
+        }
+
+        /* Tipografía elegante */
+        h1, h2, h3, .logo {
+            font-family: 'Playfair Display', serif;
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            font-weight: 600;
+            letter-spacing: -0.3px;
+            margin-bottom: 1rem;
+            color: #0b2b3b;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .section-title span {
+            display: inline-block;
+            background: #b8860b;
+            width: 60px;
+            height: 3px;
+            margin-top: 12px;
+        }
+
+        /* Botones */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: #1e3c3f;
+            color: white;
+            padding: 12px 28px;
+            border-radius: 40px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: 0.25s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #1e3c3f;
+            color: #1e3c3f;
+        }
+        .btn-outline:hover {
+            background: #1e3c3f;
+            color: white;
+        }
+        .btn:hover {
+            transform: translateY(-3px);
+            background: #0f2a2c;
+            box-shadow: 0 12px 20px -12px rgba(0,0,0,0.25);
+        }
+
+        /* Header */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 0;
+            flex-wrap: wrap;
+            border-bottom: 1px solid rgba(255,255,255,0.3);
+        }
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #f5e7d9;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        .nav-links a {
+            color: #fef9ef;
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.2s;
+            font-size: 1rem;
+        }
+        .nav-links a:hover { color: #e3c794; }
+
+        /* Hero */
+        .hero {
+            min-height: 85vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            padding: 2rem 0;
+        }
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 12px rgba(0,0,0,0.4);
+        }
+        .hero-content p {
+            font-size: 1.3rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            font-weight: 400;
+        }
+
+        /* Cards y elementos con movimiento leve */
+        .card-hover {
+            transition: transform 0.25s ease, box-shadow 0.3s;
+            background: white;
+            border-radius: 24px;
+            padding: 1.8rem;
+            box-shadow: 0 10px 25px -8px rgba(0,0,0,0.08);
+        }
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 30px -12px rgba(0,0,0,0.15);
+        }
+
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .service-icon {
+            font-size: 2.8rem;
+            color: #b8860b;
+            margin-bottom: 1rem;
+        }
+
+        /* Imagen en movimiento (flotante sutil) */
+        .floating-img {
+            animation: floatSoft 5s infinite ease-in-out;
+            border-radius: 32px;
+            box-shadow: 0 25px 35px -12px rgba(0,0,0,0.2);
+            width: 100%;
+            max-height: 380px;
+            object-fit: cover;
+        }
+        @keyframes floatSoft {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-12px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Testimonios grid */
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px,1fr));
+            gap: 1.8rem;
+            margin: 2rem 0;
+        }
+        .testimonial-card {
+            background: white;
+            padding: 1.8rem;
+            border-radius: 28px;
+            transition: all 0.2s;
+        }
+        .rating {
+            color: #f5b042;
+            margin-bottom: 1rem;
+        }
+
+        footer {
+            background: #0a1f24;
+            color: #ccc;
+            padding: 3rem 0 2rem;
+            margin-top: 4rem;
+        }
+
+        /* responsive */
+        @media (max-width: 800px) {
+            .navbar { flex-direction: column; gap: 1rem; }
+            .hero-content h1 { font-size: 2.5rem; }
+            h2 { font-size: 1.9rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="dynamic-bg" id="dynamicBg"></div>
+<div class="wrapper">
+    <div class="container">
+        <nav class="navbar">
+            <div class="logo">⚖️ LexMotion</div>
+            <div class="nav-links">
+                <a href="#">Inicio</a>
+                <a href="#especialidades">Especialidades</a>
+                <a href="#testimonios">Testimonios</a>
+                <a href="#contacto">Contacto</a>
+            </div>
+        </nav>
+
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Defensa estratégica <br> con justicia en movimiento</h1>
+                <p>Despacho penal, familiar y corporativo. Representación agresiva e íntegra en CDMX.</p>
+                <a href="#contacto" class="btn">Consulta gratuita <i class="fas fa-gavel"></i></a>
+            </div>
+        </section>
+
+        <!-- ¿Por qué elegirnos? (4 pilares) -->
+        <section>
+            <div class="section-title">
+                <h2>¿Por qué LexMotion?</h2>
+                <span></span>
+            </div>
+            <div class="grid-4">
+                <div class="card-hover"><i class="fas fa-user-graduate service-icon"></i><h3>Especialistas por área</h3><p>Abogados dedicados a penal, familiar, laboral y corporativo con enfoque analítico.</p></div>
+                <div class="card-hover"><i class="fas fa-comments service-icon"></i><h3>Comunicación directa</h3><p>Hable con su abogado titular, respuesta en menos de 24 horas.</p></div>
+                <div class="card-hover"><i class="fas fa-chart-line service-icon"></i><h3>Estrategia antes de acción</h3><p>Evaluación de riesgos y costos reales para decisiones informadas.</p></div>
+                <div class="card-hover"><i class="fas fa-balance-scale service-icon"></i><h3>Resultados comprobables</h3><p>Más de 300 casos exitosos en tribunales de la CDMX.</p></div>
+            </div>
+        </section>
+
+        <!-- SERVICIOS con imagen flotante + movimiento -->
+        <section id="especialidades" style="margin: 4rem 0;">
+            <div class="section-title">
+                <h2>Áreas de práctica</h2>
+                <span></span>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 2rem; align-items: center; margin-bottom: 3rem;">
+                <div style="flex: 1.2; min-width: 240px;">
+                    <img src="https://images.pexels.com/photos/5669602/pexels-photo-5669602.jpeg?auto=compress&cs=tinysrgb&w=800&h=500&fit=crop" alt="abogado y cliente" class="floating-img" id="movingServiceImg">
+                </div>
+                <div style="flex: 1;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="card-hover"><i class="fas fa-family"></i><h4>Derecho Familiar</h4><p>Divorcios, custodias, pensiones alimenticias.</p></div>
+                        <div class="card-hover"><i class="fas fa-handcuffs"></i><h4>Derecho Penal</h4><p>Defensa penal, amparos, debido proceso.</p></div>
+                        <div class="card-hover"><i class="fas fa-building"></i><h4>Corporativo</h4><p>Constitución, compliance, fusiones.</p></div>
+                        <div class="card-hover"><i class="fas fa-home"></i><h4>Inmobiliario</h4><p>Regularización, usucapión, contratos.</p></div>
+                        <div class="card-hover"><i class="fas fa-briefcase"></i><h4>Laboral</h4><p>Despidos injustificados, liquidaciones.</p></div>
+                        <div class="card-hover"><i class="fas fa-passport"></i><h4>Migratorio</h4><p>Residencias, naturalización, visas.</p></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Calculadoras (simulacro visual)
+        <section style="background: #eef2f3; border-radius: 48px; padding: 2.5rem 1.5rem; margin: 2rem 0;">
+            <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 20px;">
+                <div style="flex:1; min-width: 200px;"><i class="fas fa-calculator" style="font-size: 2rem; color:#b8860b;"></i><h3>Calculadora de Pensión Alimenticia</h3><p>Porcentajes actualizados 2026.</p><button class="btn btn-outline" style="margin-top: 10px;">Calcular →</button></div>
+                <div style="flex:1; min-width: 200px;"><i class="fas fa-file-invoice-dollar" style="font-size: 2rem; color:#b8860b;"></i><h3>Calculadora de Finiquito</h3><p>Conforme a LFT.</p><button class="btn btn-outline" style="margin-top: 10px;">Calcular →</button></div>
+                <div style="flex:1; min-width: 200px;"><i class="fas fa-chart-simple" style="font-size: 2rem; color:#b8860b;"></i><h3>Liquidación Laboral</h3><p>Indemnización por despido.</p><button class="btn btn-outline" style="margin-top: 10px;">Calcular →</button></div>
+            </div>
+        </section> 
+        -->
+
+        <!-- Testimonios con fotos profesionales -->
+        <section id="testimonios">
+            <div class="section-title">
+                <h2>Lo que dicen nuestros clientes</h2>
+                <span></span>
+            </div>
+            <div class="testimonial-grid" id="testimonialsGrid">
+                <!-- JS llenará testimonios dinámicos -->
+            </div>
+        </section>
+
+        <!-- FAQ compacto -->
+        <section style="margin: 3rem 0;">
+            <div class="section-title"><h2>Preguntas frecuentes</h2><span></span></div>
+            <div style="display: grid; gap: 1.2rem;">
+                <div class="card-hover"><strong>¿Cuánto cuesta una consulta?</strong> — La primera asesoría es gratuita y sin compromiso, con diagnóstico inicial.</div>
+                <div class="card-hover"><strong>¿Tiempos de divorcio en CDMX?</strong> — Express de mutuo acuerdo: 2-4 meses; contencioso puede durar hasta 2 años.</div>
+                <div class="card-hover"><strong>¿Dónde están sus oficinas?</strong> — Colonia Roma Norte, CDMX (Guanajuato 224). Atención presencial y virtual.</div>
+            </div>
+        </section>
+
+        <!-- Contacto con imagen de abogada con lentes (cambiado) -->
+        <section id="contacto" style="background: #fff; border-radius: 40px; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 10px 25px rgba(0,0,0,0.05);">
+            <div style="display: flex; flex-wrap: wrap; gap: 2rem; justify-content: space-between;">
+                <div><h3><i class="fas fa-map-marker-alt"></i> Visítanos</h3><p>Guanajuato 224, Roma Norte, CDMX<br>Lun-Vie 9:00 - 18:00</p><p><i class="fas fa-phone-alt"></i> 55 6465 5501</p><p><i class="fas fa-envelope"></i> contacto@lexmotion.mx</p></div>
+                <div><h3>Obtén asesoría inmediata</h3><input type="text" placeholder="Nombre" style="padding: 12px; margin: 8px 0; width: 100%; border-radius: 30px; border:1px solid #ccc;"><input type="email" placeholder="Email" style="padding: 12px; margin: 8px 0; width: 100%; border-radius: 30px;"><button class="btn" style="width: 100%; justify-content: center;">Enviar mensaje <i class="fas fa-paper-plane"></i></button></div>
+                <div><img src="https://images.pexels.com/photos/3769021/pexels-photo-3769021.jpeg?auto=compress&cs=tinysrgb&w=300&h=200&fit=crop" style="border-radius: 28px; width: 100%; max-width: 260px; object-fit: cover; height: 180px;" class="floating-img" alt="Abogada con lentes"></div>
+            </div>
+        </section>
+    </div>
+    <footer>
+        <div class="container" style="text-align: center;">© 2026 LexMotion — Despacho Jurídico Estratégico. Defensa con visión de futuro.</div>
+    </footer>
+</div>
+
+<script>
+    // --------------------------------------------------------------
+    // SOLO 3 IMÁGENES DE FONDO: Ciudad, Apretón de manos en junta, Mujer ejecutiva con lentes
+    // --------------------------------------------------------------
+    const bgImageSet = [
+        "https://images.pexels.com/photos/466685/pexels-photo-466685.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&fit=crop",   // CIUDAD
+        "https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&fit=crop",   // APRETÓN DE MANOS
+        "https://images.pexels.com/photos/3769021/pexels-photo-3769021.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&fit=crop"    // MUJER EJECUTIVA CON LENTES
+    ];
+
+    function getRandomBg() {
+        return bgImageSet[Math.floor(Math.random() * bgImageSet.length)];
+    }
+
+    const dynamicBgDiv = document.getElementById('dynamicBg');
+    dynamicBgDiv.style.backgroundImage = `url(${getRandomBg()})`;
+
+    let lastScrollY = 0;
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+        if (!ticking) {
+            requestAnimationFrame(() => {
+                const currentScroll = window.scrollY;
+                if (Math.abs(currentScroll - lastScrollY) > 150) {
+                    const newImg = getRandomBg();
+                    dynamicBgDiv.style.backgroundImage = `url(${newImg})`;
+                    lastScrollY = currentScroll;
+                }
+                ticking = false;
+            });
+            ticking = true;
+        }
+    });
+
+    // 2. TESTIMONIOS CON IMÁGENES PROFESIONALES
+    const testimonialsData = [
+        { name: "Jorge Ramírez", area: "Derecho Penal", text: "Lograron el mejor resultado para mi caso. Profesionales y cercanos.", rating: 5 },
+        { name: "Mariana Rivas", area: "Derecho Inmobiliario", text: "Regularización de herencia impecable, hoy la propiedad está a mi nombre.", rating: 5 },
+        { name: "Roberto Ayala", area: "Derecho Corporativo", text: "Estructuraron fusión con due diligence completo. Muy recomendables.", rating: 5 },
+        { name: "Lucia Torres", area: "Derecho Familiar", text: "Mi divorcio fue justo, protegieron a mis hijos. Agradecimiento eterno.", rating: 5 },
+        { name: "Laura Stein", area: "Migratorio", text: "Obtuve mi residencia permanente en tiempo récord. Excelente equipo.", rating: 5 },
+        { name: "Ernesto Salas", area: "Inmobiliario", text: "Recuperé mi propiedad en meses gracias a su estrategia legal.", rating: 5 },
+        { name: "Carlos Mendoza", area: "Familiar", text: "La custodia de mi hijo fue resuelta a mi favor. Abogada excepcional.", rating: 5 },
+        { name: "Rodrigo Cervantes", area: "Corporativo", text: "Su programa de compliance nos evita problemas constantemente.", rating: 5 }
+    ];
+
+    const avatarImages = [
+        "https://images.pexels.com/photos/3769021/pexels-photo-3769021.jpeg?auto=compress&cs=tinysrgb&w=120&h=120&fit=crop",
+        "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=120&h=120&fit=crop",
+        "https://images.pexels.com/photos/697509/pexels-photo-697509.jpeg?auto=compress&cs=tinysrgb&w=120&h=120&fit=crop",
+        "https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=120&h=120&fit=crop",
+        "https://images.pexels.com/photos/7640741/pexels-photo-7640741.jpeg?auto=compress&cs=tinysrgb&w=120&h=120&fit=crop",
+        "https://images.pexels.com/photos/5669602/pexels-photo-5669602.jpeg?auto=compress&cs=tinysrgb&w=120&h=120&fit=crop",
+        "https://images.pexels.com/photos/3183198/pexels-photo-3183198.jpeg?auto=compress&cs=tinysrgb&w=120&h=120&fit=crop",
+        "https://images.pexels.com/photos/4427815/pexels-photo-4427815.jpeg?auto=compress&cs=tinysrgb&w=120&h=120&fit=crop"
+    ];
+
+    function getRandomAvatar(index) {
+        return avatarImages[index % avatarImages.length];
+    }
+
+    function renderTestimonials() {
+        const container = document.getElementById('testimonialsGrid');
+        if (!container) return;
+        container.innerHTML = '';
+        testimonialsData.forEach((t, idx) => {
+            const card = document.createElement('div');
+            card.className = 'testimonial-card';
+            card.style.transition = 'transform 0.2s';
+            card.onmouseenter = (e) => e.currentTarget.style.transform = 'scale(1.02)';
+            card.onmouseleave = (e) => e.currentTarget.style.transform = 'scale(1)';
+            const stars = '★'.repeat(t.rating) + '☆'.repeat(5-t.rating);
+            card.innerHTML = `
+                <div style="display: flex; gap: 15px; align-items: center; margin-bottom: 1rem;">
+                    <img src="${getRandomAvatar(idx)}" style="width: 55px; height: 55px; border-radius: 50%; object-fit: cover; border: 2px solid #b8860b;">
+                    <div><strong>${t.name}</strong><br><span style="font-size:0.8rem;">${t.area}</span></div>
+                </div>
+                <div class="rating">${stars}</div>
+                <p>“${t.text}”</p>
+            `;
+            container.appendChild(card);
+        });
+    }
+
+    // 3. IMAGEN FLOTANTE DE SERVICIO
+    const movingImg = document.getElementById('movingServiceImg');
+    const serviceImgs = [
+        "https://images.pexels.com/photos/5669602/pexels-photo-5669602.jpeg?auto=compress&cs=tinysrgb&w=800&h=500&fit=crop",
+        "https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=800&h=500&fit=crop",
+        "https://images.pexels.com/photos/697509/pexels-photo-697509.jpeg?auto=compress&cs=tinysrgb&w=800&h=500&fit=crop",
+        "https://images.pexels.com/photos/4427815/pexels-photo-4427815.jpeg?auto=compress&cs=tinysrgb&w=800&h=500&fit=crop",
+        "https://images.pexels.com/photos/7640741/pexels-photo-7640741.jpeg?auto=compress&cs=tinysrgb&w=800&h=500&fit=crop"
+    ];
+    let imgIndex = 0;
+    if (movingImg) {
+        setInterval(() => {
+            imgIndex = (imgIndex + 1) % serviceImgs.length;
+            movingImg.style.opacity = '0.6';
+            setTimeout(() => {
+                movingImg.src = serviceImgs[imgIndex];
+                movingImg.style.opacity = '1';
+            }, 150);
+        }, 5000);
+    }
+
+    renderTestimonials();
+
+    setInterval(() => {
+        const optionalBg = getRandomBg();
+        dynamicBgDiv.style.backgroundImage = `url(${optionalBg})`;
+        lastScrollY = window.scrollY;
+    }, 25000);
+</script>
+</body>
+</html>
